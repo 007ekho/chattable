@@ -38,7 +38,7 @@ def gen_query_response(query):
 
     return query_response
 
-def gen_response(userinput):
+def gen_response():
     answer_prompt = PromptTemplate.from_template(
         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
     
@@ -52,7 +52,7 @@ def gen_response(userinput):
     
     chain = (
         RunnablePassthrough.assign(query= gen_query).assign(
-            result=itemgetter("query") | execute_query
+            result=itemgetter("query") | gen_query_response()
         )
         | rephrase_answer
     )
