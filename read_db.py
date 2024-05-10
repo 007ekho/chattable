@@ -33,7 +33,7 @@ def gen_response():
     # generate_query = create_sql_query_chain(llm,db)
     # query = generate_query.invoke({"question":"which entity has the largest total deposit based on current year?"})
 
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 1, openai_api_key=OPENAI_API_TOKEN)
+    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 1, openai_api_key=st.secrets.OPENAI_API_KEY)
     generate_query = create_sql_query_chain(llm,db)
     query = generate_query.invoke(input)
 
