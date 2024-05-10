@@ -6,7 +6,9 @@
 # %pip install langchain_openai
 # %pip install langsmith
 
-OPENAI_API_TOKEN="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"
+import streamlit as st
+
+
 
 user = "EHI007"
 password = "Worker/123"
@@ -27,7 +29,7 @@ def gen_response():
     from langchain_openai import ChatOpenAI
     from langsmith import traceable
 
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 1, openai_api_key=OPENAI_API_TOKEN)
+    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 1, openai_api_key=st.secrets.OPENAI_API_KEY)
     generate_query = create_sql_query_chain(llm,db)
     query = generate_query.invoke({"question":"which entity has the largest total deposit based on current year?"})
 
