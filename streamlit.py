@@ -66,6 +66,7 @@ if user_prompt:
     # Generate response if user input is not empty
     with st.spinner("Assistant is thinking..."):
         llm_response = gen_response(user_prompt)
+        st.write(llm_response)
 
     st.session_state.messages.append({"role": "assistant", "content": llm_response})
 
