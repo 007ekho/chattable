@@ -1,12 +1,8 @@
-# %pip install snowflake-sqlalchemy
-# %pip install snowflake
-# %pip install --upgrade --quiet  snowflake-connector-python
-# %pip install langchain_community
-# %pip install langchain
-# %pip install langchain_openai
-# %pip install langsmith
-
 import streamlit as st
+from langchain.chains import create_sql_query_chain
+from langchain_openai import ChatOpenAI
+from langsmith import traceable
+from langchain_community.tools.sql_database.tool import QuerySQLDataBaseTool
 
 
 
@@ -24,28 +20,14 @@ snowflake_url = f"snowflake://{user}:{password}@{account}/{database}/{schema}?wa
 db = SQLDatabase.from_uri(snowflake_url,sample_rows_in_table_info=1,include_tables=['financial_table'])
 
 
-# def gen_response():
-#     from langchain.chains import create_sql_query_chain
-#     from langchain_openai import ChatOpenAI
-#     from langsmith import traceable
-
-#     # llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 1, openai_api_key=st.secrets.OPENAI_API_KEY)
-#     # generate_query = create_sql_query_chain(llm,db)
-#     # query = generate_query.invoke({"question":"which entity has the largest total deposit based on current year?"})
-
-#     llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 0, openai_api_key=st.secrets.OPENAI_API_KEY)
-#     generate_query = create_sql_query_chain(llm,db)
-#     query = generate_query.invoke(input)
-
-#     return query
-
-def gen_response(user_input):
-    from langchain.chains import create_sql_query_chain
-    from langchain_openai import ChatOpenAI
-    from langsmith import traceable
-
+def gen_query(user_input):
     llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0, openai_api_key=st.secrets.OPENAI_API_KEY)
     generate_query = create_sql_query_chain(llm, db)
     query = generate_query.invoke({"question":user_input})
 
     return query
+def gen_response(query)
+    execute_query = QuerySQLDataBaseTool(db=db)
+    query_response =execute_query.invoke(query)
+
+    return query_response
