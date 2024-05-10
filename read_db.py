@@ -46,6 +46,6 @@ def gen_response(user_input):
 
     llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0, openai_api_key=st.secrets.OPENAI_API_KEY)
     generate_query = create_sql_query_chain(llm, db)
-    query = generate_query.invoke(user_input)
+    query = generate_query.invoke({"question":user_input})
 
     return query
