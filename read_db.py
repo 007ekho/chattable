@@ -24,21 +24,20 @@ snowflake_url = f"snowflake://{user}:{password}@{account}/{database}/{schema}?wa
 db = SQLDatabase.from_uri(snowflake_url,sample_rows_in_table_info=1,include_tables=['financial_table'])
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0, openai_api_key=st.secrets.OPENAI_API_KEY)
 
-def gen_query(input):
-    
+
+
+
+def gen_query(input, llm, db):
     generate_query = create_sql_query_chain(llm, db)
-    query = generate_query.invoke({"question":input})
-    
-    
+    query = generate_query.invoke({"question": input})
     return query
 
-def gen_query_response(query):
+def gen_query_response(query, db):
     execute_query = QuerySQLDataBaseTool(db=db)
-    query_response =execute_query.invoke(query)
-
+    query_response = execute_query.invoke(query)
     return query_response
 
-def gen_response(query):
+def gen_response(user_input, llm, db):
     answer_prompt = PromptTemplate.from_template(
         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
     
@@ -50,17 +49,55 @@ def gen_response(query):
     
     rephrase_answer = answer_prompt | llm | StrOutputParser()
     
+    query = gen_query(user_input, llm, db)
+    query_response = gen_query_response(query, db)
+    
     chain = (
-        RunnablePassthrough.assign(query= gen_query(input)).assign(
-            result=itemgetter("query") | gen_query_response(query)
+        RunnablePassthrough.assign(query=query).assign(
+            result=itemgetter("query") | gen_query_response(query, db)
         )
         | rephrase_answer
     )
     
-    response= chain.invoke({"question":userinput})
-    return  response
-# def gen_response(query):
+    response = chain.invoke({"question": user_input})
+    return response
+
+
+
+
+
+# def gen_query(input):
+    
+#     generate_query = create_sql_query_chain(llm, db)
+#     query = generate_query.invoke({"question":input})
+    
+    
+#     return query
+
+# def gen_query_response(query):
 #     execute_query = QuerySQLDataBaseTool(db=db)
 #     query_response =execute_query.invoke(query)
 
 #     return query_response
+
+# def gen_response(query):
+#     answer_prompt = PromptTemplate.from_template(
+#         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
+    
+#         Question: {question}
+#         SQL Query: {query}
+#         SQL Result: {result}
+#         Answer:"""
+#     )
+    
+#     rephrase_answer = answer_prompt | llm | StrOutputParser()
+    
+#     chain = (
+#         RunnablePassthrough.assign(query= gen_query(input)).assign(
+#             result=itemgetter("query") | gen_query_response(query)
+#         )
+#         | rephrase_answer
+#     )
+    
+#     response= chain.invoke({"question":userinput})
+#     return  response
