@@ -1,4 +1,5 @@
 streamlit
+snowflake
 snowflake-connector-python
 langchain_community
 langchain
