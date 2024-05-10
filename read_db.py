@@ -36,28 +36,29 @@ def gen_query_response(query):
     query_response = execute_query.invoke(query)
     return query_response
 
-def gen_response(user_input):
-    query = gen_query(user_input)  # Generate query using user input
-    answer_prompt = PromptTemplate.from_template(
-        """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
+
+# def gen_response(user_input):
+#     query = gen_query(user_input)  # Generate query using user input
+#     answer_prompt = PromptTemplate.from_template(
+#         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
     
-        Question: {question}
-        SQL Query: {query}
-        SQL Result: {result}
-        Answer:"""
-    )
+#         Question: {question}
+#         SQL Query: {query}
+#         SQL Result: {result}
+#         Answer:"""
+#     )
     
-    rephrase_answer = answer_prompt | llm | StrOutputParser()
+#     rephrase_answer = answer_prompt | llm | StrOutputParser()
     
-    chain = (
-        RunnablePassthrough.assign(query=query).assign(
-            result=itemgetter("query") | gen_query_response(query)
-        )
-        | rephrase_answer
-    )
+#     chain = (
+#         RunnablePassthrough.assign(query=query).assign(
+#             result=itemgetter("query") | gen_query_response(query)
+#         )
+#         | rephrase_answer
+#         )
     
-    response = chain.invoke({"question": user_input})  # Use user input here
-    return response
+#     response = chain.invoke({"question": user_input})  # Use user input here
+#     return response
 
 
 
