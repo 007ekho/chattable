@@ -44,7 +44,7 @@ def gen_response():
     rephrase_answer = answer_prompt | llm | StrOutputParser()
     
     chain = (
-        RunnablePassthrough.assign(query= generate_query).assign(
+        RunnablePassthrough.assign(query= gen_query).assign(
             result=itemgetter("query") | execute_query
         )
         | rephrase_answer
