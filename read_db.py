@@ -28,10 +28,17 @@ def gen_query(user_input):
     
     generate_query = create_sql_query_chain(llm, db)
     query = generate_query.invoke({"question":user_input})
-
+    
+    
     return query
 
-def gen_response():
+def gen_query_response(query):
+    execute_query = QuerySQLDataBaseTool(db=db)
+    query_response =execute_query.invoke(query)
+
+    return query_response
+
+def gen_response(userinput):
     answer_prompt = PromptTemplate.from_template(
         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
     
@@ -50,7 +57,7 @@ def gen_response():
         | rephrase_answer
     )
     
-    response= chain.invoke({"question": "How many entities with total asset more than 50000 i 2010"})
+    response= chain.invoke({"question":userinput})
     return  response
 # def gen_response(query):
 #     execute_query = QuerySQLDataBaseTool(db=db)
