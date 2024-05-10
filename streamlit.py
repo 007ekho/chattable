@@ -31,7 +31,7 @@ if st.session_state.messages[-1]["role"]!= "assistant":
     with st.chat_message("assistant"):
         with st.spinner("Thinking...."):
             
-            llm_response = gen_response()
+            llm_response = gen_response(input)
             
             st.write(llm_response)
             
