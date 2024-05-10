@@ -1,7 +1,7 @@
 
 import streamlit as st
 from read_db import gen_query
-
+from read_db import gen_response
 st.title("Welcome to your chatbot")
 
 # Initialize session state
