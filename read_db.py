@@ -26,21 +26,18 @@ llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0, openai_api_key=st.secrets
 
 
 
-def gen_query(input):
-    
+def gen_query(user_input):
     generate_query = create_sql_query_chain(llm, db)
-    query = generate_query.invoke({"question":input})
-    
-    
+    query = generate_query.invoke({"question": user_input})
     return query
 
-def gen_query_response(a):
+def gen_query_response(query):
     execute_query = QuerySQLDataBaseTool(db=db)
-    query_response =execute_query.invoke(a)
-
+    query_response = execute_query.invoke(query)
     return query_response
 
-def gen_response(query):
+def gen_response(user_input):
+    query = gen_query(user_input)  # Generate query using user input
     answer_prompt = PromptTemplate.from_template(
         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
     
@@ -53,11 +50,53 @@ def gen_response(query):
     rephrase_answer = answer_prompt | llm | StrOutputParser()
     
     chain = (
-        RunnablePassthrough.assign(query= gen_query(input)).assign(
+        RunnablePassthrough.assign(query=query).assign(
             result=itemgetter("query") | gen_query_response(query)
         )
         | rephrase_answer
     )
     
-    response= chain.invoke({"question":userinput})
-    return  response
+    response = chain.invoke({"question": user_input})  # Use user input here
+    return response
+
+
+
+
+
+
+
+# def gen_query(input):
+    
+#     generate_query = create_sql_query_chain(llm, db)
+#     query = generate_query.invoke({"question":input})
+    
+    
+#     return query
+
+# def gen_query_response(a):
+#     execute_query = QuerySQLDataBaseTool(db=db)
+#     query_response =execute_query.invoke(a)
+
+#     return query_response
+
+# def gen_response(query):
+#     answer_prompt = PromptTemplate.from_template(
+#         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
+    
+#         Question: {question}
+#         SQL Query: {query}
+#         SQL Result: {result}
+#         Answer:"""
+#     )
+    
+#     rephrase_answer = answer_prompt | llm | StrOutputParser()
+    
+#     chain = (
+#         RunnablePassthrough.assign(query= gen_query(input)).assign(
+#             result=itemgetter("query") | gen_query_response(query)
+#         )
+#         | rephrase_answer
+#     )
+    
+#     response= chain.invoke({"question":userinput})
+#     return  response
