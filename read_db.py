@@ -31,7 +31,7 @@ def gen_query(user_input):
 
     return query
 
-def gen_response(query):
+def gen_response():
     answer_prompt = PromptTemplate.from_template(
         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
     
