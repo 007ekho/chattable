@@ -26,7 +26,7 @@ def gen_query(user_input):
     query = generate_query.invoke({"question":user_input})
 
     return query
-def gen_response(query)
+def gen_response(query):
     execute_query = QuerySQLDataBaseTool(db=db)
     query_response =execute_query.invoke(query)
 
