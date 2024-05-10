@@ -1,7 +1,7 @@
 
 import streamlit as st
 from read_db import gen_query
-from read_db import gen_response
+# from read_db import gen_response
 from read_db import gen_query_response
 from langchain_openai import ChatOpenAI
 from langchain_community.utilities.sql_database import SQLDatabase
@@ -44,8 +44,9 @@ if user_prompt:
 
     # Generate response if user input is not empty
     with st.spinner("Assistant is thinking..."):
-        # query_response = gen_query(user_prompt)
-        llm_response = gen_response(user_prompt)
+        query_response = gen_query(user_prompt)
+        llm_response = gen_query_response(query_response)
+        
         
         st.write(llm_response)
 
