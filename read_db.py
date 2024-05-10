@@ -50,7 +50,7 @@ def gen_response():
         | rephrase_answer
     )
     
-     response= chain.invoke({"question": "How many entities with total asset more than 50000 i 2010"})
+    response= chain.invoke({"question": "How many entities with total asset more than 50000 i 2010"})
     return  response
 # def gen_response(query):
 #     execute_query = QuerySQLDataBaseTool(db=db)
