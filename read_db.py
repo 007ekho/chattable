@@ -38,7 +38,7 @@ def gen_query_response(query):
 
     return query_response
 
-def gen_response():
+def gen_response(gen_query(user_input)):
     answer_prompt = PromptTemplate.from_template(
         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
     
@@ -51,8 +51,8 @@ def gen_response():
     rephrase_answer = answer_prompt | llm | StrOutputParser()
     
     chain = (
-        RunnablePassthrough.assign(query= gen_query).assign(
-            result=itemgetter("query") | gen_query_response()
+        RunnablePassthrough.assign(query= gen_query(user_input)).assign(
+            result=itemgetter("query") | gen_query_response(query)
         )
         | rephrase_answer
     )
