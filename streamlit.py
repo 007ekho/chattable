@@ -44,8 +44,8 @@ if user_prompt:
 
     # Generate response if user input is not empty
     with st.spinner("Assistant is thinking..."):
-        query_response = gen_query(user_prompt,llm, db)
-        llm_response = gen_response(user_input, llm, db)
+        query_response = gen_query(user_prompt)
+        llm_response = gen_response(query_response)
         
         st.write(llm_response)
 
