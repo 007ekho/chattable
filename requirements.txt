@@ -1,4 +1,5 @@
 streamlit
+langchain_openai
 snowflake
 langchain_core
 snowflake-sqlalchemy
