@@ -24,17 +24,28 @@ snowflake_url = f"snowflake://{user}:{password}@{account}/{database}/{schema}?wa
 db = SQLDatabase.from_uri(snowflake_url,sample_rows_in_table_info=1,include_tables=['financial_table'])
 
 
-def gen_response():
+# def gen_response():
+#     from langchain.chains import create_sql_query_chain
+#     from langchain_openai import ChatOpenAI
+#     from langsmith import traceable
+
+#     # llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 1, openai_api_key=st.secrets.OPENAI_API_KEY)
+#     # generate_query = create_sql_query_chain(llm,db)
+#     # query = generate_query.invoke({"question":"which entity has the largest total deposit based on current year?"})
+
+#     llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 0, openai_api_key=st.secrets.OPENAI_API_KEY)
+#     generate_query = create_sql_query_chain(llm,db)
+#     query = generate_query.invoke(input)
+
+#     return query
+
+def gen_response(user_input):
     from langchain.chains import create_sql_query_chain
     from langchain_openai import ChatOpenAI
     from langsmith import traceable
 
-    # llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 1, openai_api_key=st.secrets.OPENAI_API_KEY)
-    # generate_query = create_sql_query_chain(llm,db)
-    # query = generate_query.invoke({"question":"which entity has the largest total deposit based on current year?"})
-
-    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature = 0, openai_api_key=st.secrets.OPENAI_API_KEY)
-    generate_query = create_sql_query_chain(llm,db)
-    query = generate_query.invoke(input)
+    llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0, openai_api_key=st.secrets.OPENAI_API_KEY)
+    generate_query = create_sql_query_chain(llm, db)
+    query = generate_query.invoke(user_input)
 
     return query
