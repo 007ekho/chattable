@@ -24,10 +24,10 @@ snowflake_url = f"snowflake://{user}:{password}@{account}/{database}/{schema}?wa
 db = SQLDatabase.from_uri(snowflake_url,sample_rows_in_table_info=1,include_tables=['financial_table'])
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0, openai_api_key=st.secrets.OPENAI_API_KEY)
 
-def gen_query(user_input):
+def gen_query(input):
     
     generate_query = create_sql_query_chain(llm, db)
-    query = generate_query.invoke({"question":user_input})
+    query = generate_query.invoke({"question":input})
     
     
     return query
