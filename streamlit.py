@@ -48,6 +48,7 @@ if prompt := st.chat_input("What is up?"):
         response =fin_response(prompt,llm_response)
        
         # st.write(llm_res)
+        st.dataframe(message["results"])
         st.markdown(response)
     # Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": response})
