@@ -47,8 +47,7 @@ if user_prompt:
         query_response = gen_query(user_prompt)
         llm_response = gen_query_response(query_response)
         llm_res =fin_response(user_prompt,llm_response)
-        message["results"] = llm_response
-        st.dataframe(message["results"])
+       
         st.write(llm_res)
 
     st.session_state.messages.append({"role": "assistant", "content": llm_response})
