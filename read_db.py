@@ -16,8 +16,8 @@ password = "Worker/123"
 warehouse = "COMPUTE_WH"
 role = "ACCOUNTADMIN"
 account = "vwwhgvg-aw51783"
-database="FROSTY_SAMPLE"
-schema="CYBERSYN_FINANCIAL"
+database="BUS_DATA"
+schema="PUBLIC"
 
 from langchain_community.utilities.sql_database import SQLDatabase
 
@@ -40,32 +40,7 @@ def gen_query_response(query):
 
 
 def fin_response(a, b):
-    prompt = PromptTemplate.from_template("""
-        You will be acting as an AI SQL Expert named Bee.
-        Your goal is to give correct, executable SQL queries to users.
-        You will be replying to users who will be confused if you don't respond in the character of Bee.
-        You are given one table, the table name is in financial_table.
-        The user will ask questions, for each question {question} you should respond and include an SQL query based on the question {question} and the table. 
-        
-        
-        Here are 6 critical rules for the interaction you must abide:
-        <rules>
-        1.you can not answer any question not relation to the table financial table
-        2. If I don't tell you to find a limited set of results in the SQL query or question, you MUST limit the number of responses to 10.
-        3. Text / string WHERE clauses must be fuzzy match, e.g., ilike %keyword%.
-        4. Make sure to generate a single Snowflake SQL code, not multiple. 
-        5. You should only use the table columns given, and the table given in <tableName>, you MUST NOT hallucinate about the table names.
-        6. DO NOT put numerical at the very front of SQL variables.
-        
-        </rules>
-        
-        Don't forget to use "ilike %keyword%" for fuzzy match queries (especially for variable_name column)
-        
-        For each question from the user, make sure to include a query in your response.
-        
-        Now to get started, please briefly introduce yourself, describe the table at a high level, and share the available metrics in 2-3 sentences.
-        Then provide 3 example questions using bullet points.
-        """)
+    prompt = PromptTemplate.from_template("Given the following user question, corresponding {question}, and result {SQL_result}, answer the user question. Do not answer any question outside of the {SQL_result} relation to this table name financial_table")
     
     chain = LLMChain(llm=llm,prompt=prompt)
     result = chain.run(question=a, SQL_result=b)
