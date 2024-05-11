@@ -1,7 +1,7 @@
 
 import streamlit as st
 from read_db import gen_query
-# from read_db import gen_response
+from read_db import fin_response
 from read_db import gen_query_response
 from langchain_openai import ChatOpenAI
 from langchain_community.utilities.sql_database import SQLDatabase
@@ -46,9 +46,9 @@ if user_prompt:
     with st.spinner("Assistant is thinking..."):
         query_response = gen_query(user_prompt)
         llm_response = gen_query_response(query_response)
+        llm_res =fin_response(user_prompt,llm_response)
         
-        
-        st.write(llm_response)
+        st.write(llm_res)
 
     st.session_state.messages.append({"role": "assistant", "content": llm_response})
 
