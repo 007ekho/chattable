@@ -102,7 +102,7 @@ def gen_query_response(query):
 def fin_response(a, b):
     prompt = PromptTemplate.from_template("Given the following user question, corresponding {question}, and result {SQL_result}, answer the user question. Do not answer any question outside of the {SQL_result} relation to this table name financial_table")
     
-    chain = LLMChain(prompt=prompt)
+    chain = LLMChain(llm=llm,prompt=prompt)
     result = chain.run(question=a, SQL_result=b)
     return result
 
