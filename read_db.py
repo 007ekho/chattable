@@ -33,12 +33,12 @@ def gen_query(user_input):
     return query
 
 
-def gen_query_response(query_response, table_info):
+def gen_query_response(query_response):
 
     # table_name = "financial_table"
 
     # Get the columns information using the inspect method
-    columns_info = db._inspector.get_columns(db.get_usable_table_names())
+    columns_info = db._inspector.get_columns(db.get_usable_table_names()[0])
     
     # Extract column names from the columns information
     column_names = [column_info['name'] for column_info in columns_info]
