@@ -24,7 +24,7 @@ from langchain_community.utilities.sql_database import SQLDatabase
 snowflake_url = f"snowflake://{user}:{password}@{account}/{database}/{schema}?warehouse={warehouse}&role={role}"
 db = SQLDatabase.from_uri(snowflake_url,sample_rows_in_table_info=1,include_tables=['financial_table'])
 llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0, openai_api_key=st.secrets.OPENAI_API_KEY)
-
+table_info =db.table_info
 
 
 def gen_query(user_input):
@@ -33,26 +33,54 @@ def gen_query(user_input):
     return query
 
 
-def gen_query_response(query):
-    execute_query = QuerySQLDataBaseTool(db=db)
-    query_response = execute_query.invoke(query)
+def gen_query_response(query_response, table_info):
+
+    # table_name = "financial_table"
+
+    # Get the columns information using the inspect method
+    columns_info = db._inspector.get_columns(db.get_usable_table_names())
     
-    # Assuming query_response is a list of tuples representing rows from the table
-    if query_response:
-        # Extract column names from the first row of the query response
-        columns = [column[0] for column in query_response.description]
+    # Extract column names from the columns information
+    column_names = [column_info['name'] for column_info in columns_info]
+
+
+    
+    # # Extract column names from the table info
+    # column_names = [column["name"] for column in table_info]
+    
+    # Initialize an empty dictionary to store column values
+    table_dict = {}
+
+    # Extract values for each column
+    for i, column_name in enumerate(column_names):
+        table_dict[column_name] = [row[i] for row in query_response]
+
+    return table_dict
+
+
+
+
+
+# def gen_query_response(query):
+#     execute_query = QuerySQLDataBaseTool(db=db)
+#     query_response = execute_query.invoke(query)
+    
+#     # Assuming query_response is a list of tuples representing rows from the table
+#     if query_response:
+#         # Extract column names from the first row of the query response
+#         columns = [column[0] for column in query_response.description]
         
-        # Initialize a dictionary with empty lists for each column
-        table_dict = {column: [] for column in columns}
+#         # Initialize a dictionary with empty lists for each column
+#         table_dict = {column: [] for column in columns}
         
-        # Populate the dictionary with values from the query response
-        for row in query_response:
-            for i, value in enumerate(row):
-                table_dict[columns[i]].append(value)
+#         # Populate the dictionary with values from the query response
+#         for row in query_response:
+#             for i, value in enumerate(row):
+#                 table_dict[columns[i]].append(value)
         
-        return table_dict
-    else:
-        return None
+#         return table_dict
+#     else:
+#         return None
 
 
 # def gen_query_response(query):
