@@ -32,10 +32,33 @@ def gen_query(user_input):
     query = generate_query.invoke({"question": user_input})
     return query
 
+
 def gen_query_response(query):
     execute_query = QuerySQLDataBaseTool(db=db)
     query_response = execute_query.invoke(query)
-    return query_response
+    
+    # Assuming query_response is a list of tuples representing rows from the table
+    if query_response:
+        # Extract column names from the first row of the query response
+        columns = [column[0] for column in query_response.description]
+        
+        # Initialize a dictionary with empty lists for each column
+        table_dict = {column: [] for column in columns}
+        
+        # Populate the dictionary with values from the query response
+        for row in query_response:
+            for i, value in enumerate(row):
+                table_dict[columns[i]].append(value)
+        
+        return table_dict
+    else:
+        return None
+
+
+# def gen_query_response(query):
+#     execute_query = QuerySQLDataBaseTool(db=db)
+#     query_response = execute_query.invoke(query)
+#     return query_response
 
 def fin_response(a,b):
     prompt = (
