@@ -57,7 +57,7 @@ def fin_response(a,b):
 # promt_template= PromptTemplate(
 #     input_variable = ["user_input"],
 #     template = template
-)
+
 # def gen_response(user_input):
 #     query = gen_query(user_input)  # Generate query using user input
 #     answer_prompt = PromptTemplate.from_template(
