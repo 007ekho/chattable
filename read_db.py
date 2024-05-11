@@ -33,151 +33,84 @@ def gen_query(user_input):
     return query
 
 
-# def gen_query_response(query_response):
-
-#     # table_name = "financial_table"
-
-#     # Get the columns information using the inspect method
-#     columns_info = db._inspector.get_columns(db.get_usable_table_names()[0])
-    
-#     # Extract column names from the columns information
-#     column_names = [column_info['name'] for column_info in columns_info]
-
-
-    
-#     # # Extract column names from the table info
-#     # column_names = [column["name"] for column in table_info]
-    
-#     # Initialize an empty dictionary to store column values
-#     table_dict = {}
-
-#     # Extract values for each column
-#     for i, column_name in enumerate(column_names):
-#         table_dict[column_name] = [row[i] for row in query_response]
-
-#     return table_dict
-
-
-
-
-
-# def gen_query_response(query):
-#     execute_query = QuerySQLDataBaseTool(db=db)
-#     query_response = execute_query.invoke(query)
-    
-#     # Assuming query_response is a list of tuples representing rows from the table
-#     if query_response:
-#         # Extract column names from the first row of the query response
-#         columns = [column[0] for column in query_response.description]
-        
-#         # Initialize a dictionary with empty lists for each column
-#         table_dict = {column: [] for column in columns}
-        
-#         # Populate the dictionary with values from the query response
-#         for row in query_response:
-#             for i, value in enumerate(row):
-#                 table_dict[columns[i]].append(value)
-        
-#         return table_dict
-#     else:
-#         return None
-
 def gen_query_response(query):
     execute_query = QuerySQLDataBaseTool(db=db)
     query_response = execute_query.invoke(query)
     return query_response
 
-# def fin_response(a,b):
-#     prompt = (
-#     PromptTemplate.from_template("Given the following user question, corresponding {question}, and result  {SQL_result}, answer the user question. Do not answer any question outside of the{SQL_result}
-#     relation to this table name financial_table")
-    
-#     )
-    
-#     chain = LLMChain(llm=llm, prompt=prompt)
-#     result =chain.run(question=a, SQL_result=b)
-#     return result
-
 
 def fin_response(a, b):
-    prompt = PromptTemplate.from_template("Given the following user question, corresponding {question}, and result {SQL_result}, answer the user question. Do not answer any question outside of the {SQL_result} relation to this table name financial_table")
+    prompt = PromptTemplate.from_template("""
+        You will be acting as an AI SQL Expert named Bee.
+        Your goal is to give correct, executable SQL queries to users.
+        You will be replying to users who will be confused if you don't respond in the character of Bee.
+        You are given one table, the table name is in financial_table.
+        The user will ask questions, for each question {question} you should respond and include an SQL query based on the question {question} and the table. 
+        
+        {context}
+        
+        Here are 6 critical rules for the interaction you must abide:
+        <rules>
+        
+        1. If I don't tell you to find a limited set of results in the SQL query or question, you MUST limit the number of responses to 10.
+        2. Text / string WHERE clauses must be fuzzy match, e.g., ilike %keyword%.
+        3. Make sure to generate a single Snowflake SQL code, not multiple. 
+        4. You should only use the table columns given, and the table given in <tableName>, you MUST NOT hallucinate about the table names.
+        5. DO NOT put numerical at the very front of SQL variables.
+        
+        </rules>
+        
+        Don't forget to use "ilike %keyword%" for fuzzy match queries (especially for variable_name column)
+        
+        For each question from the user, make sure to include a query in your response.
+        
+        Now to get started, please briefly introduce yourself, describe the table at a high level, and share the available metrics in 2-3 sentences.
+        Then provide 3 example questions using bullet points.
+        """)
     
     chain = LLMChain(llm=llm,prompt=prompt)
     result = chain.run(question=a, SQL_result=b)
     return result
 
-# template ="""Given the following user question, corresponding SQL query, and SQL result, answer the user question.
+# def fin_response(a, b):
+#     prompt = PromptTemplate.from_template("""
+#         You will be acting as an AI SQL Expert named Bee.
+#         Your goal is to give correct, executable sql query to users.
+#         You will be replying to users who will be confused if you don't respond in the character of Bee.
+#         You are given one table, the table name is in financial_table.
+#         The user will ask questions, for each question {question} you should respond  and include a sql query based on the question {question} and the table. 
+        
+#         {context}
+        
+#         Here are 6 critical rules for the interaction you must abide:
+#         <rules>
+        
+#         1. If I don't tell you to find a limited set of results in the sql query or question, you MUST limit the number of responses to 10.
+#         3. Text / string where clauses must be fuzzy match e.g ilike %keyword%
+#         4. Make sure to generate a single snowflake sql code, not multiple. 
+#         5. You should only use the table columns given , and the table given in <tableName>, you MUST NOT hallucinate about the table names
+#         6. DO NOT put numerical at the very front of sql variable.
+#         </rules>
+        
+#         Don't forget to use "ilike %keyword%" for fuzzy match queries (especially for variable_name column)
+        
+        
+#         For each question from the user, make sure to include a query in your response.
+        
+#         Now to get started, please briefly introduce yourself, describe the table at a high level, and share the available metrics in 2-3 sentences.
+#         Then provide 3 example questions using bullet points.
+#         """")
     
-#         Question: {user_input}
-#         SQL Query: {query}
-#         SQL Result: {query_response}
-#         Answer: """
-
-# promt_template= PromptTemplate(
-#     input_variable = ["user_input"],
-#     template = template
-
-# def gen_response(user_input):
-#     query = gen_query(user_input)  # Generate query using user input
-#     answer_prompt = PromptTemplate.from_template(
-#         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
-    
-#         Question: {question}
-#         SQL Query: {query}
-#         SQL Result: {result}
-#         Answer:"""
-#     )
-    
-#     rephrase_answer = answer_prompt | llm | StrOutputParser()
-    
-#     chain = (
-#         RunnablePassthrough.assign(query=query).assign(
-#             result=itemgetter("query") | gen_query_response(query)
-#         )
-#         | rephrase_answer
-#         )
-    
-#     response = chain.invoke({"question": user_input})  # Use user input here
-#     return response
-
+#     chain = LLMChain(llm=llm,prompt=prompt)
+#     result = chain.run(question=a, SQL_result=b)
+#     return result
 
 
 
 
 
 
-# def gen_query(input):
-    
-#     generate_query = create_sql_query_chain(llm, db)
-#     query = generate_query.invoke({"question":input})
-    
-    
-#     return query
 
-# def gen_query_response(a):
-#     execute_query = QuerySQLDataBaseTool(db=db)
-#     query_response =execute_query.invoke(a)
 
-#     return query_response
 
-# def gen_response(query):
-#     answer_prompt = PromptTemplate.from_template(
-#         """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
-    
-#         Question: {question}
-#         SQL Query: {query}
-#         SQL Result: {result}
-#         Answer:"""
-#     )
-    
-#     rephrase_answer = answer_prompt | llm | StrOutputParser()
-    
-#     chain = (
-#         RunnablePassthrough.assign(query= gen_query(input)).assign(
-#             result=itemgetter("query") | gen_query_response(query)
-#         )
-#         | rephrase_answer
-#     )
-    
-#     response= chain.invoke({"question":userinput})
-#     return  response
+
