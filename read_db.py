@@ -33,29 +33,29 @@ def gen_query(user_input):
     return query
 
 
-def gen_query_response(query_response):
+# def gen_query_response(query_response):
 
-    # table_name = "financial_table"
+#     # table_name = "financial_table"
 
-    # Get the columns information using the inspect method
-    columns_info = db._inspector.get_columns(db.get_usable_table_names()[0])
+#     # Get the columns information using the inspect method
+#     columns_info = db._inspector.get_columns(db.get_usable_table_names()[0])
     
-    # Extract column names from the columns information
-    column_names = [column_info['name'] for column_info in columns_info]
+#     # Extract column names from the columns information
+#     column_names = [column_info['name'] for column_info in columns_info]
 
 
     
-    # # Extract column names from the table info
-    # column_names = [column["name"] for column in table_info]
+#     # # Extract column names from the table info
+#     # column_names = [column["name"] for column in table_info]
     
-    # Initialize an empty dictionary to store column values
-    table_dict = {}
+#     # Initialize an empty dictionary to store column values
+#     table_dict = {}
 
-    # Extract values for each column
-    for i, column_name in enumerate(column_names):
-        table_dict[column_name] = [row[i] for row in query_response]
+#     # Extract values for each column
+#     for i, column_name in enumerate(column_names):
+#         table_dict[column_name] = [row[i] for row in query_response]
 
-    return table_dict
+#     return table_dict
 
 
 
@@ -82,11 +82,10 @@ def gen_query_response(query_response):
 #     else:
 #         return None
 
-
-# def gen_query_response(query):
-#     execute_query = QuerySQLDataBaseTool(db=db)
-#     query_response = execute_query.invoke(query)
-#     return query_response
+def gen_query_response(query):
+    execute_query = QuerySQLDataBaseTool(db=db)
+    query_response = execute_query.invoke(query)
+    return query_response
 
 def fin_response(a,b):
     prompt = (
