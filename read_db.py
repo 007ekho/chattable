@@ -87,14 +87,23 @@ def gen_query_response(query):
     query_response = execute_query.invoke(query)
     return query_response
 
-def fin_response(a,b):
-    prompt = (
-    PromptTemplate.from_template("Given the following user question, corresponding {question}, and result  {SQL_result}, answer the user question.")
+# def fin_response(a,b):
+#     prompt = (
+#     PromptTemplate.from_template("Given the following user question, corresponding {question}, and result  {SQL_result}, answer the user question. Do not answer any question outside of the{SQL_result}
+#     relation to this table name financial_table")
     
-    )
+#     )
     
-    chain = LLMChain(llm=llm, prompt=prompt)
-    result =chain.run(question=a, SQL_result=b)
+#     chain = LLMChain(llm=llm, prompt=prompt)
+#     result =chain.run(question=a, SQL_result=b)
+#     return result
+
+
+def fin_response(a, b):
+    prompt = PromptTemplate.from_template("Given the following user question, corresponding {question}, and result {SQL_result}, answer the user question. Do not answer any question outside of the {SQL_result} relation to this table name financial_table")
+    
+    chain = LLMChain(prompt=prompt)
+    result = chain.run(question=a, SQL_result=b)
     return result
 
 # template ="""Given the following user question, corresponding SQL query, and SQL result, answer the user question.
