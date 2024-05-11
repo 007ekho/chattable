@@ -7,6 +7,7 @@ from operator import itemgetter
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
+from langchain.chains import LLMChain
 
 
 
@@ -36,7 +37,27 @@ def gen_query_response(query):
     query_response = execute_query.invoke(query)
     return query_response
 
+def fin_response(a,b):
+    prompt = (
+    PromptTemplate.from_template("Given the following user question, corresponding {question}, and result  {SQL_result}, answer the user question.")
+    
+    )
+    
+    chain = LLMChain(llm=llm, prompt=prompt)
+    result =chain.run(question=a, SQL_result=b)
+    return result
 
+# template ="""Given the following user question, corresponding SQL query, and SQL result, answer the user question.
+    
+#         Question: {user_input}
+#         SQL Query: {query}
+#         SQL Result: {query_response}
+#         Answer: """
+
+# promt_template= PromptTemplate(
+#     input_variable = ["user_input"],
+#     template = template
+)
 # def gen_response(user_input):
 #     query = gen_query(user_input)  # Generate query using user input
 #     answer_prompt = PromptTemplate.from_template(
