@@ -23,7 +23,7 @@ from langchain_community.utilities.sql_database import SQLDatabase
 
 import streamlit as st
 st.title("Echo Bot")
-st.write(The table contains information about bus journeys, including the bus number, journey ID, start time, end time, card type used for payment, weekday of the journey, and revenue generated. 
+description ="""The table contains information about bus journeys, including the bus number, journey ID, start time, end time, card type used for payment, weekday of the journey, and revenue generated. 
 
 The 'BUS_NUMBER' column includes bus numbers 10, 5, and 7 for different journeys.
 The 'JOURNEY_ID' column contains unique IDs for each journey.
@@ -31,7 +31,8 @@ The 'START_TIME' column shows the time when the journey started.
 The 'END_TIME' column displays the time when the journey ended.
 The 'CARD_TYPE' column indicates the type of card used for payment (Debit, Credit, or Prepaid).
 The 'WEEKDAY' column specifies the day of the week when the journey took place.
-The 'REVENUE' column shows the revenue generated from each journey in decimal format.)
+The 'REVENUE' column shows the revenue generated from each journey in decimal format"""
+st.write(description)
 
 # Initialize chat history
 if "messages" not in st.session_state:
