@@ -28,7 +28,7 @@ description = "The table contains information about bus journeys, including the 
 
 st.write(description)
 
-st.write("<span style='color:blue'>BUS_NUMBER</span>: The 'BUS_NUMBER' column includes bus numbers 10, 5, and 7 for different journeys.", unsafe_allow_html=True)
+st.write("<span style='color:blue'>BUS_NUMBER</span>: The 'BUS_NUMBER' column includes bus numbers 1-10 for different journeys.", unsafe_allow_html=True)
 st.write("<span style='color:blue'>JOURNEY_ID</span>: The 'JOURNEY_ID' column contains unique IDs for each journey.", unsafe_allow_html=True)
 st.write("<span style='color:blue'>START_TIME</span>: The 'START_TIME' column shows the time when the journey started.", unsafe_allow_html=True)
 st.write("<span style='color:blue'>END_TIME</span>: The 'END_TIME' column displays the time when the journey ended.", unsafe_allow_html=True)
