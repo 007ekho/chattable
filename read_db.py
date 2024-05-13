@@ -46,6 +46,29 @@ def fin_response(a, b):
     result = chain.run(question=a, SQL_result=b)
     return result
 
+
+from openai import OpenAI
+
+# Initialize the OpenAI client
+client = OpenAI()
+
+def get_completion(prompt, user_input, result_list, client_instance, model="gpt-3.5-turbo"):
+    # Replace placeholders in the prompt with actual values
+    prompt = prompt.format(user_input=user_input, result_list=data_frame.to_dict())
+    messages= [{"role": "user", "content": prompt}]
+    # Create a completion
+    response =client_instance.chat.completions.create(
+        model=model,
+        
+        messages= messages,
+        max_tokens=200,
+        temperature=0
+    )
+
+    return response.choices[0].message.content
+
+
+
 # def fin_response(a, b):
 #     prompt = PromptTemplate.from_template("""
 #         You will be acting as an AI SQL Expert named Bee.
