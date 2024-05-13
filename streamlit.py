@@ -24,33 +24,18 @@ from langchain_community.utilities.sql_database import SQLDatabase
 import streamlit as st
 st.title("Snowflake Bot")
 
-
-description = """
-The **table** contains information about **bus journeys**, including the bus number, journey ID, start time, end time, card type used for payment, weekday of the journey, and revenue generated. 
-
-<span style='color:blue'>**BUS_NUMBER**</span>:
-The 'BUS_NUMBER' column includes bus numbers 10, 5, and 7 for different journeys.
-
-<span style='color:blue'>**JOURNEY_ID**</span>:
-The 'JOURNEY_ID' column contains unique IDs for each journey.
-
-<span style='color:blue'>**START_TIME**</span>:
-The 'START_TIME' column shows the time when the journey started.
-
-<span style='color:blue'>**END_TIME**</span>:
-The 'END_TIME' column displays the time when the journey ended.
-
-<span style='color:blue'>**CARD_TYPE**</span>:
-The 'CARD_TYPE' column indicates the type of card used for payment (Debit, Credit, or Prepaid).
-
-<span style='color:blue'>**WEEKDAY**</span>:
-The 'WEEKDAY' column specifies the day of the week when the journey took place.
-
-<span style='color:blue'>**REVENUE**</span>:
-The 'REVENUE' column shows the revenue generated from each journey in decimal format.
-"""
+description = "The table contains information about bus journeys, including the bus number, journey ID, start time, end time, card type used for payment, weekday of the journey, and revenue generated."
 
 st.write(description)
+
+st.write("<span style='color:blue'>BUS_NUMBER</span>: The 'BUS_NUMBER' column includes bus numbers 10, 5, and 7 for different journeys.", unsafe_allow_html=True)
+st.write("<span style='color:blue'>JOURNEY_ID</span>: The 'JOURNEY_ID' column contains unique IDs for each journey.", unsafe_allow_html=True)
+st.write("<span style='color:blue'>START_TIME</span>: The 'START_TIME' column shows the time when the journey started.", unsafe_allow_html=True)
+st.write("<span style='color:blue'>END_TIME</span>: The 'END_TIME' column displays the time when the journey ended.", unsafe_allow_html=True)
+st.write("<span style='color:blue'>CARD_TYPE</span>: The 'CARD_TYPE' column indicates the type of card used for payment (Debit, Credit, or Prepaid).", unsafe_allow_html=True)
+st.write("<span style='color:blue'>WEEKDAY</span>: The 'WEEKDAY' column specifies the day of the week when the journey took place.", unsafe_allow_html=True)
+st.write("<span style='color:blue'>REVENUE</span>: The 'REVENUE' column shows the revenue generated from each journey in decimal format.", unsafe_allow_html=True)
+
 
 
 # Initialize chat history
