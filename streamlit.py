@@ -26,7 +26,7 @@ st.title("Snowflake Bot")
 
 
 description = """
-The table contains information about bus journeys, including the bus number, journey ID, start time, end time, card type used for payment, weekday of the journey, and revenue generated. 
+The **table** contains information about **bus journeys**, including the bus number, journey ID, start time, end time, card type used for payment, weekday of the journey, and revenue generated. 
 
 **BUS_NUMBER**:
 The 'BUS_NUMBER' column includes bus numbers 10, 5, and 7 for different journeys.
