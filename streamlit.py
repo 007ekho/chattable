@@ -60,7 +60,6 @@ if prompt := st.chat_input("go Bee..."):
     with st.chat_message("assistant"):
         query_response = gen_query(prompt)
         llm_response = gen_query_response(query_response)
-        if 
         response =fin_response(prompt,llm_response)
        
         # st.write(llm_res)
