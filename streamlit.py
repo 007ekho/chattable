@@ -3,6 +3,7 @@ import streamlit as st
 from read_db import gen_query
 from read_db import fin_response
 from read_db import gen_query_response
+from read_db import get_completion
 from langchain_openai import ChatOpenAI
 from langchain_community.utilities.sql_database import SQLDatabase
 
@@ -59,6 +60,7 @@ if prompt := st.chat_input("go Bee..."):
     with st.chat_message("assistant"):
         query_response = gen_query(prompt)
         llm_response = gen_query_response(query_response)
+        if 
         response =fin_response(prompt,llm_response)
        
         # st.write(llm_res)
