@@ -49,23 +49,38 @@ def fin_response(a, b):
 
 from openai import OpenAI
 
-# Initialize the OpenAI client
-client = OpenAI()
 
-def get_completion(prompt, user_input, result_list, client_instance, model="gpt-3.5-turbo"):
-    # Replace placeholders in the prompt with actual values
-    prompt = prompt.format(user_input=user_input, result_list=data_frame.to_dict())
-    messages= [{"role": "user", "content": prompt}]
-    # Create a completion
-    response =client_instance.chat.completions.create(
-        model=model,
-        
-        messages= messages,
-        max_tokens=200,
-        temperature=0
+def checker(query,user_input):
+    prompt = hub.pull("ehi-123/chat_hallucination_blocker")
+    llm = ChatOpenAI(model="gpt-4", temperature=0, api_key=OPENAI_API_TOKEN)
+    chain = prompt | llm
+    chain_call =chain.invoke(
+        {
+            "query": query,
+            "user_input": user_input
+        }
     )
+    response_check =chain_call.content
+    return response_check
 
-    return response.choices[0].message.content
+# Initialize the OpenAI client
+# client = OpenAI()
+
+# def get_completion(prompt, user_input, result_list, client_instance, model="gpt-3.5-turbo"):
+#     # Replace placeholders in the prompt with actual values
+#     prompt = prompt.format(user_input=user_input, result_list=data_frame.to_dict())
+#     messages= [{"role": "user", "content": prompt}]
+#     # Create a completion
+#     response =client_instance.chat.completions.create(
+#         model=model,
+        
+#         messages= messages,
+#         max_tokens=200,
+#         temperature=0
+#     )
+
+#     return response.choices[0].message.content
+
 
 
 
