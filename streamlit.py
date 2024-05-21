@@ -65,7 +65,8 @@ if prompt := st.chat_input("go Bee..."):
         if check == "Yes":
             response =fin_response(prompt,llm_response)
             st.markdown(response)
-            st.write(query_response)
+            # st.write(query_response)
+            st.session_state.messages.append({"role": "assistant", "content": response})
         else:
             st.write(check)
         # st.write(llm_res)
@@ -73,7 +74,7 @@ if prompt := st.chat_input("go Bee..."):
         # st.dataframe(message["results"])
        
     # Add assistant response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": response})
+    # st.session_state.messages.append({"role": "assistant", "content": response})
 
 
 
