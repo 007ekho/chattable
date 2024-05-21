@@ -53,7 +53,7 @@ from openai import OpenAI
 
 def checker(query,user_input):
     prompt = hub.pull("ehi-123/chat_hallucination_blocker")
-    llm = ChatOpenAI(model="gpt-4", temperature=0, api_key=OPENAI_API_TOKEN)
+    llm = ChatOpenAI(model="gpt-4", temperature=0, api_key=st.secrets.OPENAI_API_KEY)
     chain = prompt | llm
     chain_call =chain.invoke(
         {
