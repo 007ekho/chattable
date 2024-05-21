@@ -5,6 +5,7 @@ from read_db import fin_response
 from read_db import gen_query_response
 from read_db import checker
 from langchain_openai import ChatOpenAI
+from langchain import hub
 from langchain_community.utilities.sql_database import SQLDatabase
 
 # user = "EHI007"
