@@ -62,7 +62,7 @@ if prompt := st.chat_input("go Bee..."):
         query_response = gen_query(prompt)
         llm_response = gen_query_response(query_response)
         check =checker(prompt,query_response)
-        if check == Yes:
+        if check == "Yes":
             response =fin_response(prompt,llm_response)
             st.markdown(response)
             st.write(query_response)
