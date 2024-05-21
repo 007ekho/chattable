@@ -3,7 +3,7 @@ import streamlit as st
 from read_db import gen_query
 from read_db import fin_response
 from read_db import gen_query_response
-from read_db import get_completion
+from read_db import checker
 from langchain_openai import ChatOpenAI
 from langchain_community.utilities.sql_database import SQLDatabase
 
@@ -60,13 +60,17 @@ if prompt := st.chat_input("go Bee..."):
     with st.chat_message("assistant"):
         query_response = gen_query(prompt)
         llm_response = gen_query_response(query_response)
-        response =fin_response(prompt,llm_response)
-       
+        check =checker(prompt,query_response)
+        if check == Yes:
+            response =fin_response(prompt,llm_response)
+            st.markdown(response)
+            st.write(query_response)
+        else:
+            st.write(check)
         # st.write(llm_res)
         # message["results"] =  gen_query_response(query_response)
         # st.dataframe(message["results"])
-        st.markdown(response)
-        st.write(query_response)
+       
     # Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": response})
 
