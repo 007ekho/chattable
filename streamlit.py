@@ -64,7 +64,7 @@ if prompt := st.chat_input("go Bee..."):
         check =checker(prompt,query_response)
         if check == "Yes":
             response =fin_response(prompt,llm_response)
-            st.write(query_response)
+            # st.write(query_response)
             st.markdown(response)
             # st.write(query_response)
             st.session_state.messages.append({"role": "assistant", "content": response})
