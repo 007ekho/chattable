@@ -59,8 +59,8 @@ if prompt := st.chat_input("go Bee..."):
     # response = f"Echo: {prompt}"
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
-        query_response = gen_query(prompt)
-        llm_response = gen_query_response(query_response)
+        # query_response = gen_query(prompt)
+        # llm_response = gen_query_response(query_response)
         check =checker(prompt,query_response)
         if check == "Yes":
             response =fin_response(prompt,llm_response)
