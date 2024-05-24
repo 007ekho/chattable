@@ -75,7 +75,7 @@ if app_active:
 
 else:
     # Display an upgrade notice when the app is inactive
-    st.error('🛠️ This chatbot is currently undergoing an upgrade and may be temporarily unavailable. Thank you for your patience.', unsafe_allow_html=True)
+    st.error('🛠️ This chatbot is currently undergoing an upgrade and may be temporarily unavailable. Thank you for your patience.')
 
 
 
