@@ -8,13 +8,7 @@ from langchain_openai import ChatOpenAI
 from langchain import hub
 from langchain_community.utilities.sql_database import SQLDatabase
 
-# user = "EHI007"
-# password = "Worker/123"
-# warehouse = "COMPUTE_WH"
-# role = "ACCOUNTADMIN"
-# account = "vwwhgvg-aw51783"
-# database="FROSTY_SAMPLE"
-# schema="CYBERSYN_FINANCIAL"
+
 
 from langchain_community.utilities.sql_database import SQLDatabase
 
@@ -59,8 +53,8 @@ if prompt := st.chat_input("go Bee..."):
     # response = f"Echo: {prompt}"
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
-        # query_response = gen_query(prompt)
-        # llm_response = gen_query_response(query_response)
+        query_response = gen_query(prompt)
+        llm_response = gen_query_response(query_response)
         check =checker(prompt,query_response)
         if check == "Yes":
             response =fin_response(prompt,llm_response)
