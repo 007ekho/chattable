@@ -8,7 +8,7 @@ from langchain_openai import ChatOpenAI
 from langchain import hub
 from langchain_community.utilities.sql_database import SQLDatabase
 
-app_active = False
+app_active = True
 
 if app_active:
 
