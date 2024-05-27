@@ -58,14 +58,19 @@ if app_active:
                 query_response = gen_query(prompt)
                 llm_response = gen_query_response(query_response)
                 check =checker(prompt,query_response)
-                if check == "Yes":
-                    response =fin_response(prompt,llm_response)
+                response =fin_response(prompt,llm_response)
                     # st.write(query_response)
-                    st.markdown(response)
-                    # st.write(query_response)
-                    st.session_state.messages.append({"role": "assistant", "content": response})
-                else:
-                    st.write(check)
+                st.markdown(response)
+                # st.write(query_response)
+                st.session_state.messages.append({"role": "assistant", "content": response})
+                # if check == "Yes":
+                #     response =fin_response(prompt,llm_response)
+                #     # st.write(query_response)
+                #     st.markdown(response)
+                #     # st.write(query_response)
+                #     st.session_state.messages.append({"role": "assistant", "content": response})
+                # else:
+                #     st.write(check)
                 # st.write(llm_res)
                 # message["results"] =  gen_query_response(query_response)
                 # st.dataframe(message["results"])
